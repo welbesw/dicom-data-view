@@ -16,11 +16,32 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        loadDicomFile()
     }
 
     override var representedObject: AnyObject? {
         didSet {
         // Update the view, if already loaded.
+        }
+    }
+    
+    func loadDicomFile() {
+        let filePath = "/Users/will/Downloads/IDEFIX/unnamed/unnamed/IM-0001-30001.dcm"
+        if let dcmObject = DCMObject(contentsOfFile: filePath, decodingPixelData: false) {
+            
+            let attributeKeys = dcmObject.attributes.allKeys.sorted({ (key1, key2) -> Bool in
+                (key1 as! String) < (key2 as! String)
+            })
+            
+            for attributeKey in attributeKeys  {
+                if let dcmAttributeKey = attributeKey as? String {
+                    //println("Attribute: \(dcmAttributeKey)")
+                    
+                    if let attribute = dcmObject.attributes[dcmAttributeKey] as? DCMAttribute {
+                        println(attribute.readableDescription())
+                    }
+                }
+            }
         }
     }
 
