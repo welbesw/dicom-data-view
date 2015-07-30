@@ -400,6 +400,7 @@
 				BEA9101F1B616B2D00296CB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BEA910201B616B2D00296CB3 /* Build configuration list for PBXNativeTarget "DicomDataViewTests" */ = {
 			isa = XCConfigurationList;
@@ -408,6 +409,7 @@
 				BEA910221B616B2D00296CB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

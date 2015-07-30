@@ -8,8 +8,10 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
+    var dicomElements: [String] = ["Item 1", "Item 2"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,6 +24,21 @@ class ViewController: NSViewController {
         }
     }
 
+    // MARK : NSTableViewDataSource
+    
+    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+        return self.dicomElements.count
+    }
+    
+    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        
+        let string = self.dicomElements[row]
+        
+        let cell = tableView.makeViewWithIdentifier("tagCell", owner: self) as! NSTableCellView
+        cell.textField!.stringValue = string
+        
+        return cell
+    }
 
 }
 
