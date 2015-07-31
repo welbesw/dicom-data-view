@@ -483,6 +483,13 @@
         return @"";
 }
 
+- (NSString *)valuesAsReadableString
+{
+    if (self.valueLength < 100)
+        return  [_values componentsJoinedByString:@","];
+    return @"";
+}
+
 - (NSString *)description{
     if (self.valueLength < 100)
         return  [NSString stringWithFormat:@"%@\t %@\t vl:%d\t vm:%d\t %@", _tag.description, _tag.vr, (int)self.valueLength, self.valueMultiplicity, [self valuesAsString]];

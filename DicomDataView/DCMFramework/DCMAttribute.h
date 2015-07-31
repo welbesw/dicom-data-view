@@ -108,6 +108,7 @@
 - (BOOL)writeToDataContainer:(DCMDataContainer *)container withTransferSyntax:(DCMTransferSyntax *)ts;
 
 - (NSString *)valuesAsString;
+- (NSString *)valuesAsReadableString;
 - (NSArray *)valuesForVR:(NSString *)vrString  length:(int)length data:(DCMDataContainer *)dicomData;
 - (void)swapBytes:(NSMutableData *)data;
 - (id)copyWithZone:(NSZone *)zone;

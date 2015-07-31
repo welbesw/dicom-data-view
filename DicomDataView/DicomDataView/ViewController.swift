@@ -33,9 +33,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             
             self.dicomObject = dicomObject
             
-            self.dicomAttributeKeys = dicomObject.attributes.allKeys.sorted({ (key1, key2) -> Bool in
-                (key1 as! String) < (key2 as! String)
-            }) as! [String]
+            let attributesOfInterest = (dicomObject.attributes.allKeys as! Array<String>).filter { $0 != "0000,0000" }
+            
+            self.dicomAttributeKeys = attributesOfInterest.sorted({ (key1, key2) -> Bool in
+                (key1 as String) < (key2 as String)
+            }) as [String]
+            
+            
             
             /*
             for attributeKey in self.dicomAttributeKeys  {
@@ -59,7 +63,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
         let attributeKey = self.dicomAttributeKeys[row]
         
-        let cell = tableView.makeViewWithIdentifier("tagCell", owner: self) as! NSTableCellView
+        var cell: NSTableCellView? = nil
         
         if let dicomObject = self.dicomObject {
             if let attribute = dicomObject.attributes[attributeKey] as? DCMAttribute {
@@ -67,27 +71,37 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                 if let column = tableColumn {
                 
                     var stringValue = ""
-                    switch(column.identifier) {
-                        case "tag":
-                            let groupString = String(format: "%04d", arguments: [attribute.group])
-                            let elementString = String(format: "%04d", arguments: [attribute.element])
+                    cell = tableView.makeViewWithIdentifier("\(column.identifier)Cell", owner: self) as? NSTableCellView
+                    
+                    if(cell != nil) {
+                        switch(column.identifier) {
+                            case "tag":
                             
-                            stringValue = "(\(groupString),\(elementString))"
+                                let groupString = String(format: "%04d", arguments: [attribute.group])
+                                let elementString = String(format: "%04d", arguments: [attribute.element])
+                                
+                                stringValue = "(\(groupString),\(elementString))"
+                            
+                            case "size":
+                                stringValue = String(attribute.valueLength)
+                            
+                            case "vr":
+                                stringValue = attribute.vr
+                            
+                            case "name":
+                                stringValue = attribute.attrTag.name
+                            
+                            case "data":
+                                stringValue = attribute.valuesAsReadableString()
+                            
+                            default:
+                                cell!.textField!.stringValue = ""
+                        }
                         
-                        case "vr":
-                            stringValue = attribute.vr
-                        
-                        case "name":
-                            stringValue = attribute.attrTag.name
-                        
-                        default:
-                            stringValue = ""
+                        cell!.textField!.stringValue = stringValue
                     }
-                    cell.textField!.stringValue = stringValue
                 }
             }
-        } else {
-            cell.textField!.stringValue = ""
         }
         
         return cell
