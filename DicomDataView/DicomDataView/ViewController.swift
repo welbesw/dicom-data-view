@@ -10,7 +10,9 @@ import Cocoa
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
-    var dicomElements: [String] = ["Item 1", "Item 2"]
+    var dicomAttributeKeys: [String] = []
+    
+    var dicomObject: DCMObject? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,36 +29,66 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func loadDicomFile() {
         let filePath = "/Users/will/Downloads/IDEFIX/unnamed/unnamed/IM-0001-30001.dcm"
-        if let dcmObject = DCMObject(contentsOfFile: filePath, decodingPixelData: false) {
+        if let dicomObject = DCMObject(contentsOfFile: filePath, decodingPixelData: false) {
             
-            let attributeKeys = dcmObject.attributes.allKeys.sorted({ (key1, key2) -> Bool in
+            self.dicomObject = dicomObject
+            
+            self.dicomAttributeKeys = dicomObject.attributes.allKeys.sorted({ (key1, key2) -> Bool in
                 (key1 as! String) < (key2 as! String)
-            })
+            }) as! [String]
             
-            for attributeKey in attributeKeys  {
-                if let dcmAttributeKey = attributeKey as? String {
-                    //println("Attribute: \(dcmAttributeKey)")
+            /*
+            for attributeKey in self.dicomAttributeKeys  {
                     
-                    if let attribute = dcmObject.attributes[dcmAttributeKey] as? DCMAttribute {
-                        println(attribute.readableDescription())
-                    }
+                if let attribute = dicomObject.attributes[attributeKey] as? DCMAttribute {
+                    println(attribute.readableDescription())
                 }
             }
+            */
         }
     }
 
     // MARK : NSTableViewDataSource
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return self.dicomElements.count
+        
+        return self.dicomAttributeKeys.count
     }
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
-        let string = self.dicomElements[row]
+        let attributeKey = self.dicomAttributeKeys[row]
         
         let cell = tableView.makeViewWithIdentifier("tagCell", owner: self) as! NSTableCellView
-        cell.textField!.stringValue = string
+        
+        if let dicomObject = self.dicomObject {
+            if let attribute = dicomObject.attributes[attributeKey] as? DCMAttribute {
+                //Determine which column this is
+                if let column = tableColumn {
+                
+                    var stringValue = ""
+                    switch(column.identifier) {
+                        case "tag":
+                            let groupString = String(format: "%04d", arguments: [attribute.group])
+                            let elementString = String(format: "%04d", arguments: [attribute.element])
+                            
+                            stringValue = "(\(groupString),\(elementString))"
+                        
+                        case "vr":
+                            stringValue = attribute.vr
+                        
+                        case "name":
+                            stringValue = attribute.attrTag.name
+                        
+                        default:
+                            stringValue = ""
+                    }
+                    cell.textField!.stringValue = stringValue
+                }
+            }
+        } else {
+            cell.textField!.stringValue = ""
+        }
         
         return cell
     }
