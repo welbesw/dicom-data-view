@@ -14,41 +14,41 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     var dicomObject: DCMObject? = nil
     
+    @IBOutlet weak var tableView: NSTableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        loadDicomFile()
+        
+    }
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        
+        loadDicomFile() //The document is not yet set in viewDidLoad
     }
 
     override var representedObject: AnyObject? {
         didSet {
         // Update the view, if already loaded.
+            println("representedObject called")
         }
     }
     
     func loadDicomFile() {
-        let filePath = "/Users/will/Downloads/IDEFIX/unnamed/unnamed/IM-0001-30001.dcm"
-        if let dicomObject = DCMObject(contentsOfFile: filePath, decodingPixelData: false) {
-            
-            self.dicomObject = dicomObject
-            
-            let attributesOfInterest = (dicomObject.attributes.allKeys as! Array<String>).filter { $0 != "0000,0000" }
-            
-            self.dicomAttributeKeys = attributesOfInterest.sorted({ (key1, key2) -> Bool in
-                (key1 as String) < (key2 as String)
-            }) as [String]
-            
-            
-            
-            /*
-            for attributeKey in self.dicomAttributeKeys  {
-                    
-                if let attribute = dicomObject.attributes[attributeKey] as? DCMAttribute {
-                    println(attribute.readableDescription())
-                }
+        if let windowController = self.view.window?.windowController() as? NSWindowController {
+            if let document = windowController.document as? Document {
+                self.dicomObject = document.dicomObject
+                
+                let attributesOfInterest = (self.dicomObject!.attributes.allKeys as! Array<String>).filter { $0 != "0000,0000" }
+                
+                self.dicomAttributeKeys = attributesOfInterest.sorted({ (key1, key2) -> Bool in
+                    (key1 as String) < (key2 as String)
+                }) as [String]
+                
+                self.tableView.reloadData()
             }
-            */
         }
     }
 
