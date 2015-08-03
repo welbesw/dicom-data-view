@@ -84,7 +84,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                                 stringValue = "(\(groupString),\(elementString))"
                             
                             case "size":
-                                stringValue = String(attribute.valueLength)
+                                stringValue = attribute.vr == "SQ" ? "" : String(attribute.valueLength)
                             
                             case "vr":
                                 stringValue = attribute.vr
