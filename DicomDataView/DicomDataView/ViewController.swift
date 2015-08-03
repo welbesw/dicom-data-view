@@ -77,8 +77,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                         switch(column.identifier) {
                             case "tag":
                             
-                                let groupString = String(format: "%04d", arguments: [attribute.group])
-                                let elementString = String(format: "%04d", arguments: [attribute.element])
+                                //let groupString = String(attribute.group, radix:16, uppercase:true)
+                                let groupString = String(format: "%04X", arguments: [attribute.group])
+                                let elementString = String(format: "%04X", arguments: [attribute.element])
                                 
                                 stringValue = "(\(groupString),\(elementString))"
                             
