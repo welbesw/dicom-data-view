@@ -30,7 +30,7 @@
 #import "DCMNetServiceDelegate.h"
 #import "DCMEncapsulatedPDF.h"
 
-
+#import "DCMPixelDataAttribute.h"
 
 
 #define DCMDEBUG 0

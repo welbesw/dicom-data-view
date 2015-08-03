@@ -51,6 +51,8 @@
 		BE7F6D971B6ABEC2002AF8E7 /* DCMValueRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = BE7F6D711B6ABEC2002AF8E7 /* DCMValueRepresentation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BE7F6D981B6ABEC2002AF8E7 /* nameDictionary.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE7F6D721B6ABEC2002AF8E7 /* nameDictionary.plist */; };
 		BE7F6D991B6ABEC2002AF8E7 /* tagDictionary.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE7F6D731B6ABEC2002AF8E7 /* tagDictionary.plist */; };
+		BE8E5DFF1B70066800D9054B /* DCMPixelDataAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = BE8E5DFE1B70066800D9054B /* DCMPixelDataAttribute.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BE8E5E011B70099800D9054B /* DCMPixelDataAttribute.h in Headers */ = {isa = PBXBuildFile; fileRef = BE8E5E001B70069D00D9054B /* DCMPixelDataAttribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEA910071B616B2D00296CB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA910061B616B2D00296CB3 /* AppDelegate.swift */; };
 		BEA910091B616B2D00296CB3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA910081B616B2D00296CB3 /* ViewController.swift */; };
 		BEA9100B1B616B2D00296CB3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA9100A1B616B2D00296CB3 /* Images.xcassets */; };
@@ -150,6 +152,8 @@
 		BE7F6D721B6ABEC2002AF8E7 /* nameDictionary.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = nameDictionary.plist; sourceTree = "<group>"; };
 		BE7F6D731B6ABEC2002AF8E7 /* tagDictionary.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tagDictionary.plist; sourceTree = "<group>"; };
 		BE7F6D9A1B6AC1F3002AF8E7 /* DicomDataView-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DicomDataView-Bridging-Header.h"; sourceTree = "<group>"; };
+		BE8E5DFE1B70066800D9054B /* DCMPixelDataAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMPixelDataAttribute.m; sourceTree = "<group>"; };
+		BE8E5E001B70069D00D9054B /* DCMPixelDataAttribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCMPixelDataAttribute.h; sourceTree = "<group>"; };
 		BEA910011B616B2D00296CB3 /* DicomDataView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DicomDataView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA910051B616B2D00296CB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEA910061B616B2D00296CB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -221,6 +225,8 @@
 				BE7F6D621B6ABEC2002AF8E7 /* DCMNetServiceDelegate.m */,
 				BE7F6D631B6ABEC2002AF8E7 /* DCMObject.h */,
 				BE7F6D641B6ABEC2002AF8E7 /* DCMObject.m */,
+				BE8E5E001B70069D00D9054B /* DCMPixelDataAttribute.h */,
+				BE8E5DFE1B70066800D9054B /* DCMPixelDataAttribute.m */,
 				BE7F6D651B6ABEC2002AF8E7 /* DCMPresentationState.h */,
 				BE7F6D661B6ABEC2002AF8E7 /* DCMPresentationState.m */,
 				BE7F6D671B6ABEC2002AF8E7 /* DCMSequenceAttribute.h */,
@@ -339,6 +345,7 @@
 				BE7F6D771B6ABEC2002AF8E7 /* DCMAttribute.h in Headers */,
 				BE7F6D961B6ABEC2002AF8E7 /* DCMValueRepresentation.h in Headers */,
 				BE7F6D7F1B6ABEC2002AF8E7 /* DCMDataContainer.h in Headers */,
+				BE8E5E011B70099800D9054B /* DCMPixelDataAttribute.h in Headers */,
 				BE7F6D7D1B6ABEC2002AF8E7 /* DCMCharacterSet.h in Headers */,
 				BE7F6D831B6ABEC2002AF8E7 /* DCMLimitedObject.h in Headers */,
 				BE7F6D751B6ABEC2002AF8E7 /* DCMAbstractSyntaxUID.h in Headers */,
@@ -537,6 +544,7 @@
 				BE7F6D821B6ABEC2002AF8E7 /* DCMEncapsulatedPDF.m in Sources */,
 				BE7F6D971B6ABEC2002AF8E7 /* DCMValueRepresentation.m in Sources */,
 				BE7F6D941B6ABEC2002AF8E7 /* DCMTransferSyntax.m in Sources */,
+				BE8E5DFF1B70066800D9054B /* DCMPixelDataAttribute.m in Sources */,
 				BE7F6D901B6ABEC2002AF8E7 /* DCMTagDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
