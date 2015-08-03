@@ -68,9 +68,10 @@ enum photometricmode{DCM_UNKNOWN_PHOTOMETRIC, DCM_MONOCHROME1,  DCM_MONOCHROME2,
 - (void)deencapsulateData:(DCMDataContainer *)dicomData;
 
 - (void)addFrame:(NSMutableData *)data;
-- (void)replaceFrameAtIndex:(int)index withFrame:(NSMutableData *)data;
+- (void)replaceFrameAtIndex:(int)index withFrame:(NSData *)data;
 
 //Pixel decoding
+- (void)decodeData;
 - (BOOL)convertToTransferSyntax:(DCMTransferSyntax *)ts quality:(int)quality;
 - (NSData *)convertDataFromLittleEndianToHost:(NSMutableData *)data;
 - (NSData *)convertDataFromBigEndianToHost:(NSMutableData *)data;
@@ -93,5 +94,6 @@ enum photometricmode{DCM_UNKNOWN_PHOTOMETRIC, DCM_MONOCHROME1,  DCM_MONOCHROME2,
 - (NSData *)convertPaletteToRGB:(NSData *)data;
 - (NSData *) convertYBrToRGB:(NSData *)ybrData kind:(NSString *)theKind isPlanar:(BOOL)isPlanar;
 - (NSData *)convertToFloat:(NSData *)data;
+- (NSData *)decodeFrameAtIndex:(int)index;
 
 @end

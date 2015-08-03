@@ -389,8 +389,8 @@ void info_callback(const char *msg, void *a) {
     transferSyntax = [ts retain];
     _isDecoded = NO;
     
-    //if (decodeData)
-    //    [self decodeData];
+    if (decodeData)
+        [self decodeData];
     
     return self;
 }
@@ -435,12 +435,12 @@ void info_callback(const char *msg, void *a) {
     
 }
 
-- (void)addFrame:(NSMutableData *)data{
+- (void)addFrame:(NSMutableData *)data {
     
     [_values addObject:data];
 }
 
-- (void)replaceFrameAtIndex:(int)index withFrame:(NSMutableData *)data{
+- (void)replaceFrameAtIndex:(int)index withFrame:(NSData *)data {
     [_values replaceObjectAtIndex:index withObject:data];
 }
 
@@ -554,8 +554,8 @@ void info_callback(const char *msg, void *a) {
         }
         
         // we need to decode pixel data
-        //if( _isDecoded == NO)
-        //    [self decodeData];
+        if( _isDecoded == NO)
+            [self decodeData];
         
         //unencapsulated syntaxes
         if ([[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax] isEqualToTransferSyntax:ts])
@@ -898,6 +898,45 @@ void info_callback(const char *msg, void *a) {
         decompressedData = nil;
     }
     return decompressedData;
+}
+
+- (void)decodeData
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    if (!_framesCreated)
+        [self createFrames];
+    int i;
+    if (!_isDecoded)
+    {
+        for (i = 0; i < [_values count] ;i++)
+        {
+            [self replaceFrameAtIndex:i withFrame:[self decodeFrameAtIndex:i]];
+        }
+    }
+    self.transferSyntax = [DCMTransferSyntax ExplicitVRLittleEndianTransferSyntax];
+    
+    _isDecoded = YES;
+    NSString *colorspace = [_dcmObject attributeValueWithName:@"PhotometricInterpretation"];
+    if ([colorspace hasPrefix:@"YBR"] || [colorspace hasPrefix:@"PALETTE"])
+    {
+        //remove Palette stuff
+        NSMutableDictionary *attributes = [_dcmObject attributes];
+        NSMutableArray *keysToRemove = [NSMutableArray array];
+        for ( NSString *key in attributes ) {
+            DCMAttribute *attr = [attributes objectForKey:key];
+            if ([(DCMAttributeTag *)[attr attrTag] group] == 0x0028 && ([(DCMAttributeTag *)[attr attrTag] element] > 0x1100 && [(DCMAttributeTag *)[attr attrTag] element] <= 0x1223))
+                [keysToRemove addObject:key];
+        }
+        [attributes removeObjectsForKeys:keysToRemove];
+        [_dcmObject setAttributeValues:[NSMutableArray arrayWithObject:@"RGB"] forName:@"PhotometricInterpretation"];
+        [_dcmObject setAttributeValues:[NSMutableArray arrayWithObject:@"3"] forName:@"SamplesperPixel"];
+        [_dcmObject setAttributeValues:[NSMutableArray arrayWithObject:[NSNumber numberWithInt:8]] forName:@"BitsStored"];
+        [_dcmObject setAttributeValues:[NSMutableArray arrayWithObject:[NSNumber numberWithInt:8]] forName:@"BitsAllocated"];
+        [_dcmObject setAttributeValues:[NSMutableArray arrayWithObject:[NSNumber numberWithInt:7]] forName:@"HighBit"];
+        
+        _samplesPerPixel = [[[_dcmObject attributeForTag:[DCMAttributeTag tagWithName:@"SamplesperPixel"]] value] intValue];
+    }
+    [pool release];
 }
 
 -(void)createOffsetTable{
@@ -2253,6 +2292,203 @@ void info_callback(const char *msg, void *a) {
         _framesCreated = YES;
         [pool release];
     }
+}
+
+- (NSData *)decodeFrameAtIndex:(int)index
+{
+    [singleThread lock];
+    
+    BOOL colorspaceIsConverted = NO;
+    NSMutableData *subData = nil;
+    
+    @try
+    {
+        if( _framesCreated)
+            subData = [_values objectAtIndex:index];
+        else
+            subData = [self createFrameAtIndex:index];
+    }
+    @catch (NSException *e)
+    {
+        NSLog( @"exception decodeFrameAtIndex: %@", e);
+        [singleThread unlock];
+        
+        return nil;
+    }
+    
+    if ([_values count] > 0 && index < _numberOfFrames)
+    {
+        if( _framesDecoded == nil)
+        {
+            _framesDecoded = [[NSMutableArray array] retain];
+            for( int i = 0; i < _numberOfFrames; i++)
+                [_framesDecoded addObject: [NSNumber numberWithBool: NO]];
+        }
+        else if( [_framesDecoded count] != _numberOfFrames)
+        {
+            int s = (int)[_framesDecoded count];
+            for( int i = s; i <= _numberOfFrames; i++)
+                [_framesDecoded addObject: [NSNumber numberWithBool: NO]];
+        }
+        
+        if (DCMDEBUG)
+            NSLog(@"to decoders:%@", transferSyntax.description );
+        
+        // data to decoders
+        NSData *data = subData;
+        
+        if( transferSyntax.isEncapsulated == YES)
+        {
+            short depth = 0;
+            
+            [singleThread unlock];
+            
+            if( [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEG2000LosslessTransferSyntax]] == NO &&
+               [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEG2000LossyTransferSyntax]]  == NO &&
+               [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax RLETransferSyntax]] == NO)
+            {
+                depth = scanJpegDataForBitDepth( (unsigned char *) [subData bytes], [subData length]);
+                if( depth == 0)
+                    depth = _pixelDepth;
+            }
+            
+            /*
+            if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGBaselineTransferSyntax]])
+            {
+                data = [self convertJPEG8ToHost:subData];
+                colorspaceIsConverted = YES;
+            }
+            // 8 bit jpegs
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGExtendedTransferSyntax]] && depth <= 8)
+            {
+                colorspaceIsConverted = YES;
+                data = [self convertJPEG8ToHost:subData];
+            }
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGLosslessTransferSyntax]] && depth <= 8)
+            {
+                data = [self convertJPEG8LosslessToHost:subData];
+            }
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGLossless14TransferSyntax]] && depth <= 8)
+            {
+                data = [self convertJPEG8LosslessToHost:subData];
+            }
+            //12 bit jpegs
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGExtendedTransferSyntax]] && depth <= 12)
+            {
+                data = [self convertJPEG12ToHost:subData];
+            }
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGLosslessTransferSyntax]] && depth <= 12)
+            {
+                data = [self convertJPEG12ToHost:subData];
+            }
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGLossless14TransferSyntax]] && depth <= 12)
+            {
+                data = [self convertJPEG12ToHost:subData];
+            }
+            //jpeg 16s
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGExtendedTransferSyntax]] && depth <= 16)
+            {
+                data = [self convertJPEG16ToHost:subData];
+            }
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGLosslessTransferSyntax]] && depth <= 16)
+            {
+                data = [self convertJPEG16ToHost:subData];
+            }
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGLossless14TransferSyntax]] && depth <= 16)
+            {
+                data = [self convertJPEG16ToHost:subData];
+            }
+            //JPEG 2000
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEG2000LosslessTransferSyntax]] || [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEG2000LossyTransferSyntax]] )
+            {
+                colorspaceIsConverted = YES;
+                data = [self convertJPEG2000ToHost:subData];
+            }
+            else if ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax RLETransferSyntax]])
+            {
+                data = [self convertRLEToHost:subData];
+            }
+            else
+            {
+                NSLog( @"DCM Framework: Unknown compressed transfer syntax: %@ %@", transferSyntax.description, transferSyntax.transferSyntax);
+            }
+            */
+            
+            [singleThread lock];
+        }
+        
+        //non encapsulated
+        if( transferSyntax.isEncapsulated == NO && _bitsAllocated > 8)
+        {
+            if( [[_framesDecoded objectAtIndex: index] boolValue] == NO)
+            {
+                if ((NSHostByteOrder() == NS_BigEndian) && ([transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax]] || [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRLittleEndianTransferSyntax]]))
+                {
+                    data = [self convertDataFromLittleEndianToHost: subData];
+                }
+                //Big Endian Data and little Endian host
+                else  if ((NSHostByteOrder() == NS_LittleEndian) && [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]])
+                {
+                    data = [self convertDataFromBigEndianToHost: subData];
+                }
+                [_framesDecoded replaceObjectAtIndex: index withObject: [NSNumber numberWithBool: YES]];
+            }
+        }
+        //		else if(transferSyntax.isEncapsulated == NO && [self.vr isEqualToString: @"OW"])
+        //		{
+        //			if( [[_framesDecoded objectAtIndex: index] boolValue] == NO)
+        //			{
+        //				if( (NSHostByteOrder() != NS_BigEndian && [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]]) ||
+        //					(NSHostByteOrder() == NS_BigEndian && [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]] == NO))
+        //				{
+        //					void *ptr = malloc( [subData length]);
+        //					if( ptr)
+        //					{
+        //						memcpy( ptr, [subData bytes], [subData length]);
+        //
+        //						unsigned short *shortsToSwap = (unsigned short *) ptr;
+        //						int length = [data length]/2;
+        //						while( length-- > 0)
+        //							shortsToSwap[ length] = NSSwapShort( shortsToSwap[ length]);
+        //
+        //						[subData replaceBytesInRange:NSMakeRange(0, [subData length]) withBytes: ptr];
+        //						free( ptr);
+        //					}
+        //					data = subData;
+        //				}
+        //				[_framesDecoded replaceObjectAtIndex: index withObject: [NSNumber numberWithBool: YES]];
+        //			}
+        //		}
+        
+        [singleThread unlock];
+        
+        NSString *colorspace = [_dcmObject attributeValueWithName:@"PhotometricInterpretation"];
+        if (([colorspace hasPrefix:@"YBR"] || [colorspace hasPrefix:@"PALETTE"]) && !colorspaceIsConverted)
+        {
+            data = [self convertDataToRGBColorSpace:data];	
+        }
+        else
+        {
+            int numberofPlanes = [[_dcmObject attributeValueWithName:@"PlanarConfiguration"] intValue];			
+            if (numberofPlanes > 0 && numberofPlanes <= 4)
+            {
+                if( [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGExtendedTransferSyntax]] || [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEGLosslessTransferSyntax]] || [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEG2000LosslessTransferSyntax]] || [transferSyntax isEqualToTransferSyntax:[DCMTransferSyntax JPEG2000LossyTransferSyntax]])
+                {
+                    [_dcmObject setAttributeValues:[NSMutableArray arrayWithObject: [NSNumber numberWithInt: 0]] forName:@"PlanarConfiguration"];
+                }
+                else data = [self interleavePlanesInData:data];
+            }
+        }
+        
+        return data;
+    }
+    else
+    {
+        [singleThread unlock];
+        return nil;
+    }
+    
+    return nil;
 }
 
 @end

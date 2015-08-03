@@ -47,7 +47,7 @@ class Document: NSDocument {
         
         var success = false
         
-        if let dicomObject = DCMObject(data: data, decodingPixelData: false) {
+        if let dicomObject = DCMObject(data: data, decodingPixelData: true) {
             
             self.dicomObject = dicomObject
             
