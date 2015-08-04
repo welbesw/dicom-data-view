@@ -405,9 +405,9 @@
 			productReference = BE7F6D381B6ABE7A002AF8E7 /* DCMFrameworkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		BEA910001B616B2D00296CB3 /* DicomDataView */ = {
+		BEA910001B616B2D00296CB3 /* DICOM Data View */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BEA9101D1B616B2D00296CB3 /* Build configuration list for PBXNativeTarget "DicomDataView" */;
+			buildConfigurationList = BEA9101D1B616B2D00296CB3 /* Build configuration list for PBXNativeTarget "DICOM Data View" */;
 			buildPhases = (
 				BEA90FFD1B616B2D00296CB3 /* Sources */,
 				BEA90FFE1B616B2D00296CB3 /* Frameworks */,
@@ -419,7 +419,7 @@
 			dependencies = (
 				BE7F6D441B6ABE7A002AF8E7 /* PBXTargetDependency */,
 			);
-			name = DicomDataView;
+			name = "DICOM Data View";
 			productName = DicomDataView;
 			productReference = BEA910011B616B2D00296CB3 /* DicomDataView.app */;
 			productType = "com.apple.product-type.application";
@@ -480,7 +480,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BEA910001B616B2D00296CB3 /* DicomDataView */,
+				BEA910001B616B2D00296CB3 /* DICOM Data View */,
 				BEA910121B616B2D00296CB3 /* DicomDataViewTests */,
 				BE7F6D2D1B6ABE7A002AF8E7 /* DCMFramework */,
 				BE7F6D371B6ABE7A002AF8E7 /* DCMFrameworkTests */,
@@ -585,7 +585,7 @@
 		};
 		BE7F6D3D1B6ABE7A002AF8E7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BEA910001B616B2D00296CB3 /* DicomDataView */;
+			target = BEA910001B616B2D00296CB3 /* DICOM Data View */;
 			targetProxy = BE7F6D3C1B6ABE7A002AF8E7 /* PBXContainerItemProxy */;
 		};
 		BE7F6D441B6ABE7A002AF8E7 /* PBXTargetDependency */ = {
@@ -595,7 +595,7 @@
 		};
 		BEA910151B616B2D00296CB3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BEA910001B616B2D00296CB3 /* DicomDataView */;
+			target = BEA910001B616B2D00296CB3 /* DICOM Data View */;
 			targetProxy = BEA910141B616B2D00296CB3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -860,7 +860,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BEA9101D1B616B2D00296CB3 /* Build configuration list for PBXNativeTarget "DicomDataView" */ = {
+		BEA9101D1B616B2D00296CB3 /* Build configuration list for PBXNativeTarget "DICOM Data View" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEA9101E1B616B2D00296CB3 /* Debug */,
