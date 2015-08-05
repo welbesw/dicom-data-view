@@ -47,16 +47,25 @@ class Document: NSDocument {
         
         var success = false
         
-        if let dicomObject = DCMObject(data: data, decodingPixelData: true) {
+        if (!DCMObject.isDICOM(data)) {
+            //Set the error and return
+            let userInfo = [NSLocalizedDescriptionKey : "File is not DICOM data.", NSLocalizedRecoverySuggestionErrorKey : "File is not DICOM data."]
             
-            self.dicomObject = dicomObject
-            
-            println("Loaded dicom file")
-            
-            success = true
-            
+            outError.memory = NSError(domain: Constants.errorDomain, code: ErrorCodes.FileLoadFailed.rawValue, userInfo: userInfo)
         } else {
-            outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+        
+            if let dicomObject = DCMObject(data: data, decodingPixelData: true) {
+                
+                self.dicomObject = dicomObject
+                
+                println("Loaded dicom file")
+                
+                success = true
+                
+            } else {
+                let userInfo = [NSLocalizedDescriptionKey : "File could not be loaded.", NSLocalizedRecoverySuggestionErrorKey : "File could not be loaded."]
+                outError.memory = NSError(domain: Constants.errorDomain, code: ErrorCodes.FileLoadFailed.rawValue, userInfo: userInfo)
+            }
         }
         
         return success
