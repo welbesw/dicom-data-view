@@ -54,6 +54,7 @@
 		BE8E5DFF1B70066800D9054B /* DCMPixelDataAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = BE8E5DFE1B70066800D9054B /* DCMPixelDataAttribute.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BE8E5E011B70099800D9054B /* DCMPixelDataAttribute.h in Headers */ = {isa = PBXBuildFile; fileRef = BE8E5E001B70069D00D9054B /* DCMPixelDataAttribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE92CB451B7122B300C836FD /* dicom-data-view-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BE92CB441B7122B300C836FD /* dicom-data-view-icon.icns */; };
+		BEA09C501B72BB1000E6ABCA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BEA09C4F1B72BB1000E6ABCA /* Credits.rtf */; };
 		BEA910071B616B2D00296CB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA910061B616B2D00296CB3 /* AppDelegate.swift */; };
 		BEA910091B616B2D00296CB3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA910081B616B2D00296CB3 /* ViewController.swift */; };
 		BEA9100B1B616B2D00296CB3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA9100A1B616B2D00296CB3 /* Images.xcassets */; };
@@ -149,6 +150,7 @@
 		BE8E5DFE1B70066800D9054B /* DCMPixelDataAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMPixelDataAttribute.m; sourceTree = "<group>"; };
 		BE8E5E001B70069D00D9054B /* DCMPixelDataAttribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCMPixelDataAttribute.h; sourceTree = "<group>"; };
 		BE92CB441B7122B300C836FD /* dicom-data-view-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "dicom-data-view-icon.icns"; path = "../dicom-data-view-icon.icns"; sourceTree = "<group>"; };
+		BEA09C4F1B72BB1000E6ABCA /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		BEA910011B616B2D00296CB3 /* DICOM Data View.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DICOM Data View.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA910051B616B2D00296CB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEA910061B616B2D00296CB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 			children = (
 				BEA910051B616B2D00296CB3 /* Info.plist */,
 				BE92CB441B7122B300C836FD /* dicom-data-view-icon.icns */,
+				BEA09C4F1B72BB1000E6ABCA /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 				BEA9100B1B616B2D00296CB3 /* Images.xcassets in Resources */,
 				BE92CB451B7122B300C836FD /* dicom-data-view-icon.icns in Resources */,
 				BEA9100E1B616B2D00296CB3 /* Main.storyboard in Resources */,
+				BEA09C501B72BB1000E6ABCA /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
