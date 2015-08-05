@@ -12,13 +12,9 @@
 				<string>dcm</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>dicom-data-view-icon.icns</string>
+			<string>dicom-data-view-icon</string>
 			<key>CFBundleTypeName</key>
 			<string>DicomType</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>????</string>
-			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSItemContentTypes</key>

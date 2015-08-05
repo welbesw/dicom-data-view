@@ -630,8 +630,9 @@
     NSString *vr;
     NSString *dicm = [self nextStringWithLength:4];
     if ([dicm isEqualToString:@"DICM"]) { //DICOM.10 file
-        if (DEBUG)
+#ifdef DEBUG
             NSLog(@"Dicom part 10 file");
+#endif
         offset = 132;
         position = 132;
         /*
@@ -642,8 +643,9 @@
         element = [self nextUnsignedShort];
         vr = [self nextStringWithLength:2];
         
-        if (DEBUG)
+#ifdef DEBUG
             NSLog(@"group: %d element: %d vr: %@" , group, element, vr);
+#endif
         
         if ([DCMValueRepresentation isValidVR:vr]) {
             transferSyntaxToReadMetaHeader = [[DCMTransferSyntax ExplicitVRLittleEndianTransferSyntax] retain];
