@@ -51,6 +51,25 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             }
         }
     }
+    
+    @IBAction func copy(sender:AnyObject?) -> Void {
+        copySelectedRow()
+    }
+    
+    func copySelectedRow() {
+        if (self.tableView.selectedRow >= 0) {
+            let selectedAttributeKey = self.dicomAttributeKeys[self.tableView.selectedRow]
+            
+            if let dicomObject = self.dicomObject {
+                if let attribute = dicomObject.attributes[selectedAttributeKey] as? DCMAttribute {
+                    let description = attribute.readableDescription()
+                    let pasteBoard = NSPasteboard.generalPasteboard()
+                    pasteBoard.clearContents()
+                    pasteBoard.setString(description, forType: NSStringPboardType)
+                }
+            }
+        }
+     }
 
     // MARK : NSTableViewDataSource
     
