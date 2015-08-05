@@ -49,7 +49,7 @@ class Document: NSDocument {
         
         if (!DCMObject.isDICOM(data)) {
             //Set the error and return
-            let userInfo = [NSLocalizedDescriptionKey : "File is not DICOM data.", NSLocalizedRecoverySuggestionErrorKey : "File is not DICOM data."]
+            let userInfo = [NSLocalizedDescriptionKey : "File is not DICOM data.", NSLocalizedFailureReasonErrorKey : "File is not DICOM data."]
             
             outError.memory = NSError(domain: Constants.errorDomain, code: ErrorCodes.FileLoadFailed.rawValue, userInfo: userInfo)
         } else {
@@ -63,7 +63,7 @@ class Document: NSDocument {
                 success = true
                 
             } else {
-                let userInfo = [NSLocalizedDescriptionKey : "File could not be loaded.", NSLocalizedRecoverySuggestionErrorKey : "File could not be loaded."]
+                let userInfo = [NSLocalizedDescriptionKey : "File could not be loaded.", NSLocalizedFailureReasonErrorKey : "File could not be loaded."]
                 outError.memory = NSError(domain: Constants.errorDomain, code: ErrorCodes.FileLoadFailed.rawValue, userInfo: userInfo)
             }
         }
