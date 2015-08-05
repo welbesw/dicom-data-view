@@ -151,6 +151,7 @@
 		BE8E5E001B70069D00D9054B /* DCMPixelDataAttribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCMPixelDataAttribute.h; sourceTree = "<group>"; };
 		BE92CB441B7122B300C836FD /* dicom-data-view-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "dicom-data-view-icon.icns"; path = "../dicom-data-view-icon.icns"; sourceTree = "<group>"; };
 		BEA09C4F1B72BB1000E6ABCA /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		BEA09C511B72BC5A00E6ABCA /* DICOM Data View.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "DICOM Data View.entitlements"; sourceTree = "<group>"; };
 		BEA910011B616B2D00296CB3 /* DICOM Data View.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DICOM Data View.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA910051B616B2D00296CB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEA910061B616B2D00296CB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -264,6 +265,7 @@
 		BEA90FF81B616B2D00296CB3 = {
 			isa = PBXGroup;
 			children = (
+				BEA09C511B72BC5A00E6ABCA /* DICOM Data View.entitlements */,
 				BEA910031B616B2D00296CB3 /* DicomDataView */,
 				BE7F6D2F1B6ABE7A002AF8E7 /* DCMFramework */,
 				BE7F6D3E1B6ABE7A002AF8E7 /* DCMFrameworkTests */,
@@ -415,6 +417,11 @@
 					BEA910001B616B2D00296CB3 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = T9FJ9CRG8J;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -707,6 +714,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "DICOM Data View.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = DicomDataView/Info.plist;
@@ -720,6 +728,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "DICOM Data View.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = DicomDataView/Info.plist;
