@@ -52,6 +52,30 @@ class OutlineViewController: NSViewController, NSOutlineViewDataSource, NSOutlin
         }
     }
     
+    @IBAction func copy(sender:AnyObject?) -> Void {
+        copySelectedRow()
+    }
+    
+    func copySelectedRow() {
+        let selectedRow = self.outlineView.selectedRow
+        
+        if (selectedRow >= 0) {
+            let item: AnyObject? = self.outlineView.itemAtRow(selectedRow)
+            
+            let pasteBoard = NSPasteboard.generalPasteboard()
+            
+            if let attribute = item as? DCMAttribute {
+                let description = attribute.readableDescription()
+                pasteBoard.clearContents()
+                pasteBoard.setString(description, forType: NSStringPboardType)
+            } else if let dicomObject = item as? DCMObject {
+                let description = dicomObject.description
+                pasteBoard.clearContents()
+                pasteBoard.setString(description, forType: NSStringPboardType)
+            }
+        }
+    }
+    
     // MARK : NSOutlineViewDataSource
     
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
