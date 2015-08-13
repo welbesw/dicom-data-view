@@ -55,25 +55,74 @@ class OutlineViewController: NSViewController, NSOutlineViewDataSource, NSOutlin
     // MARK : NSOutlineViewDataSource
     
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
-        return item == nil ? dicomAttributeKeys.count : 0
+        
+        var numberOfChildren = 0
+        
+        if let dicomObject = self.dicomObject {
+            var attributeObject: DCMAttribute? = nil
+            if let attributeKey = item as? String {
+                attributeObject = dicomObject.attributes[attributeKey] as? DCMAttribute
+            } else if let attributeItem = item as? DCMAttribute {
+                attributeObject = attributeItem
+            }
+            
+            if let attribute = item as? DCMSequenceAttribute {
+                numberOfChildren = attribute.sequenceItems.count
+            } else if let dicomObject = item as? DCMObject {
+                numberOfChildren = dicomObject.attributes.count
+            }
+        }
+        
+        return item == nil ? dicomAttributeKeys.count : numberOfChildren
     }
     
     func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         
-        return item == nil ? self.dicomAttributeKeys[index] : ""
+        var childItem: AnyObject!
+        
+        if let dicomObject = self.dicomObject {
+            if(item == nil) {
+                let attributeKey = self.dicomAttributeKeys[index]
+                childItem = dicomObject.attributes[attributeKey] as! DCMAttribute
+            } else {
+                if let sequenceAttribute = item as? DCMSequenceAttribute {
+                    if let sequenceItemDict = sequenceAttribute.sequenceItems[index] as? NSDictionary {
+                        if let sequenceObject = sequenceItemDict["item"] as? DCMObject {
+                            childItem = sequenceObject
+                        }
+                    }
+                } else if let dicomObject = item as? DCMObject {
+                    let attributeKeys = (dicomObject.attributes.allKeys as! Array<String>).sorted({ $0 < $1 }) as [String]
+                    let key = attributeKeys[index]
+                    childItem = dicomObject.attributes[key]
+                }
+            }
+        }
+        
+        return childItem
     }
     
     func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
-        return false
+        
+        var isExpandable = false
+        
+        if let attribute = item as? DCMSequenceAttribute {
+            isExpandable = true
+        } else if let dicomObject = item as? DCMObject {
+            isExpandable = dicomObject.attributes.count > 0
+        }
+        
+        return isExpandable
     }
     
     func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
-        let attributeKey = item as! String
         
         var cell: NSTableCellView? = nil
         
         if let dicomObject = self.dicomObject {
-            if let attribute = dicomObject.attributes[attributeKey] as? DCMAttribute {
+            
+            //If we have a valid attribute - setup the cell
+            if let attribute = item as? DCMAttribute {
                 //Determine which column this is
                 if let column = tableColumn {
                     
@@ -107,6 +156,13 @@ class OutlineViewController: NSViewController, NSOutlineViewDataSource, NSOutlin
                         }
                         
                         cell!.textField!.stringValue = stringValue
+                    }
+                }
+            } else if let dicomObject = item as? DCMObject {
+                if tableColumn != nil && tableColumn!.identifier == "tag" {
+                    cell = outlineView.makeViewWithIdentifier("tagCell", owner: self) as? NSTableCellView
+                    if cell != nil {
+                        cell!.textField!.stringValue = "Sequence"
                     }
                 }
             }
