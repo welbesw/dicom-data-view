@@ -23,7 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidBecomeActive(notification: NSNotification) {
         //Handle the app becoming active again
-        println("applicationDidBecomeActive")
+        print("applicationDidBecomeActive")
         
         if(isFirstLanuch) {
             self.isFirstLanuch = false
@@ -33,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationShouldHandleReopen(sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        println("applicationShouldHandleReopen")
+        print("applicationShouldHandleReopen")
         
         if (!flag) {    //There are no visible windows - show the open panel
             showOpenDialog()
@@ -47,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func showOpenDialog() {
-        let documentController = NSDocumentController.sharedDocumentController() as! NSDocumentController
+        let documentController = NSDocumentController.sharedDocumentController() 
         if (documentController.documents.count == 0) {
             //prompt the user to open a document
             documentController.openDocument(self)

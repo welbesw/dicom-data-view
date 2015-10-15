@@ -32,18 +32,18 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     override var representedObject: AnyObject? {
         didSet {
         // Update the view, if already loaded.
-            println("representedObject called")
+            print("representedObject called")
         }
     }
     
     func loadDicomFile() {
-        if let windowController = self.view.window?.windowController() as? NSWindowController {
+        if let windowController = self.view.window?.windowController {
             if let document = windowController.document as? Document {
                 self.dicomObject = document.dicomObject
                 
                 let attributesOfInterest = (self.dicomObject!.attributes.allKeys as! Array<String>).filter { $0 != "0000,0000" }
                 
-                self.dicomAttributeKeys = attributesOfInterest.sorted({ (key1, key2) -> Bool in
+                self.dicomAttributeKeys = attributesOfInterest.sort({ (key1, key2) -> Bool in
                     (key1 as String) < (key2 as String)
                 }) as [String]
                 
