@@ -154,7 +154,7 @@
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                     </window>
                     <connections>
-                        <segue destination="Rzg-7H-YEp" kind="relationship" relationship="window.shadowedContentViewController" id="xd5-zq-Bas"/>
+                        <segue destination="jVQ-zh-qU2" kind="relationship" relationship="window.shadowedContentViewController" id="kna-bl-BaE"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -408,7 +408,58 @@
                 </viewController>
                 <customObject id="vT9-a3-Lw2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="925"/>
+            <point key="canvasLocation" x="-619" y="1479"/>
+        </scene>
+        <!--Data-->
+        <scene sceneID="ht1-nX-bpi">
+            <objects>
+                <tabViewController title="Data" selectedTabViewItemIndex="0" id="jVQ-zh-qU2" sceneMemberID="viewController">
+                    <tabViewItems>
+                        <tabViewItem label="Attributes" id="vNw-se-Zrp"/>
+                        <tabViewItem label="Pixel Data" identifier="" id="f8y-Vb-BeI"/>
+                    </tabViewItems>
+                    <tabView key="tabView" type="noTabsNoBorder" id="KyX-jd-XeW">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <font key="font" metaFont="message"/>
+                        <tabViewItems/>
+                    </tabView>
+                    <connections>
+                        <segue destination="Rzg-7H-YEp" kind="relationship" relationship="tabItems" id="lOd-rx-eAn"/>
+                        <segue destination="MDP-Ha-UEf" kind="relationship" relationship="tabItems" id="EXV-4n-3hL"/>
+                    </connections>
+                </tabViewController>
+                <customObject id="U2R-8t-SNE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="75" y="854"/>
+        </scene>
+        <!--Pixel Data View Controller-->
+        <scene sceneID="f0p-AQ-48e">
+            <objects>
+                <viewController id="MDP-Ha-UEf" customClass="PixelDataViewController" customModule="DICOM_Data_View" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="cBj-Rx-7LO">
+                        <rect key="frame" x="0.0" y="0.0" width="730" height="546"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="fcH-fi-LZM">
+                                <rect key="frame" x="20" y="20" width="690" height="506"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="hcz-hL-WnO"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="fcH-fi-LZM" firstAttribute="leading" secondItem="cBj-Rx-7LO" secondAttribute="leading" constant="20" id="0c5-m8-mcF"/>
+                            <constraint firstAttribute="bottom" secondItem="fcH-fi-LZM" secondAttribute="bottom" constant="20" id="Gqq-FI-I7A"/>
+                            <constraint firstItem="fcH-fi-LZM" firstAttribute="top" secondItem="cBj-Rx-7LO" secondAttribute="top" constant="20" id="Hrv-tm-7kf"/>
+                            <constraint firstAttribute="trailing" secondItem="fcH-fi-LZM" secondAttribute="trailing" constant="20" id="o9A-mW-3vE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="fcH-fi-LZM" id="SsT-yh-ROV"/>
+                    </connections>
+                </viewController>
+                <customObject id="PBh-pP-RRM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="592" y="1482"/>
         </scene>
     </scenes>
 </document>
