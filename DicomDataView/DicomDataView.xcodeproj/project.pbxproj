@@ -57,7 +57,6 @@
 		BE97762A1B7CFEE60094F95D /* OutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9776291B7CFEE60094F95D /* OutlineViewController.swift */; };
 		BEA09C501B72BB1000E6ABCA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BEA09C4F1B72BB1000E6ABCA /* Credits.rtf */; };
 		BEA910071B616B2D00296CB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA910061B616B2D00296CB3 /* AppDelegate.swift */; };
-		BEA910091B616B2D00296CB3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA910081B616B2D00296CB3 /* ViewController.swift */; };
 		BEA9100B1B616B2D00296CB3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA9100A1B616B2D00296CB3 /* Images.xcassets */; };
 		BEA9100E1B616B2D00296CB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA9100C1B616B2D00296CB3 /* Main.storyboard */; };
 		BEF208271B729F4000CC09E1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF208261B729F4000CC09E1 /* Constants.swift */; };
@@ -157,7 +156,6 @@
 		BEA910011B616B2D00296CB3 /* DICOM Data View.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DICOM Data View.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA910051B616B2D00296CB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEA910061B616B2D00296CB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BEA910081B616B2D00296CB3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BEA9100A1B616B2D00296CB3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BEA9100D1B616B2D00296CB3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BEF208261B729F4000CC09E1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -289,7 +287,6 @@
 			isa = PBXGroup;
 			children = (
 				BEA910061B616B2D00296CB3 /* AppDelegate.swift */,
-				BEA910081B616B2D00296CB3 /* ViewController.swift */,
 				BE9776291B7CFEE60094F95D /* OutlineViewController.swift */,
 				BE1700FD1B6C16E20052AD8F /* Document.swift */,
 				BEF208261B729F4000CC09E1 /* Constants.swift */,
@@ -517,7 +514,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEA910091B616B2D00296CB3 /* ViewController.swift in Sources */,
 				BEA910071B616B2D00296CB3 /* AppDelegate.swift in Sources */,
 				BE1700FE1B6C16E20052AD8F /* Document.swift in Sources */,
 				BE97762A1B7CFEE60094F95D /* OutlineViewController.swift in Sources */,
